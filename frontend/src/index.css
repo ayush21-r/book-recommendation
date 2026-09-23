@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --parchment: #F5F0E8;
+    --vellum: #FAF7F2;
+    --manilla: #EAE3D5;
+    --carbon: #1E1E1E;
+    --terracotta: #C85A32;
+    --emerald: #1B4332;
+    --saffron: #D99B26;
+  }
+
+  body {
+    background-color: var(--parchment);
+    color: var(--carbon);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, .font-editorial {
+    font-family: 'Newsreader', Georgia, serif;
+    font-feature-settings: "lnum" 1, "pnum" 1;
+  }
+}
+
+/* Custom Tactical & Editorial Components */
+@layer components {
+  /* Crisp Hairline Border */
+  .border-folio {
+    border: 1.5px solid #1E1E1E;
+  }
+
+  .border-folio-subtle {
+    border: 1px solid rgba(30, 30, 30, 0.15);
+  }
+
+  /* Hard Offset Drop Shadows */
+  .shadow-folio {
+    box-shadow: 2px 2px 0px #1E1E1E;
+  }
+
+  .shadow-folio-hover {
+    box-shadow: 3px 3px 0px #C85A32;
+  }
+
+  .shadow-folio-lg {
+    box-shadow: 4px 4px 0px #1E1E1E;
+  }
+
+  .shadow-folio-saffron {
+    box-shadow: 2px 2px 0px #D99B26;
+  }
+
+  .shadow-folio-emerald {
+    box-shadow: 2px 2px 0px #1B4332;
+  }
+
+  /* Tactile Interactive Transition */
+  .tactile-btn {
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .tactile-btn:hover:not(:disabled) {
+    transform: translate(-1.5px, -1.5px);
+  }
+
+  .tactile-btn:active:not(:disabled) {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px #1E1E1E;
+  }
+
+  /* Editorial Card */
+  .card-folio {
+    background-color: #FAF7F2;
+    border: 1.5px solid #1E1E1E;
+    border-radius: 0.5rem;
+    box-shadow: 2px 2px 0px #1E1E1E;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-folio-interactive:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px #C85A32;
+  }
+
+  /* Pull Quote & Annotation Styling */
+  .quote-block {
+    border-left: 3.5px solid #1B4332;
+    padding-left: 1.25rem;
+    font-family: 'Newsreader', Georgia, serif;
+    font-style: italic;
+    background-color: rgba(234, 227, 213, 0.35);
+  }
+
+  /* Ribbon Bookmark Accent */
+  .bookmark-ribbon {
+    position: absolute;
+    top: -4px;
+    right: 12px;
+    width: 14px;
+    height: 24px;
+    background-color: #D99B26;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+    box-shadow: 1px 1px 0px rgba(30, 30, 30, 0.4);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F0E8;
+  border-left: 1px solid rgba(30, 30, 30, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #EAE3D5;
+  border: 1px solid #1E1E1E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C85A32;
+}
