@@ -33,12 +33,34 @@ class Settings:
     HOST: str = os.getenv("HOST", "0.0.0.0")
     PORT: int = int(os.getenv("PORT", "8000"))
 
-    # CORS Origins
-    _raw_cors = os.getenv(
-        "CORS_ORIGINS",
-        "http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000,http://127.0.0.1:5173"
-    )
-    CORS_ORIGINS: List[str] = [origin.strip() for origin in _raw_cors.split(",") if origin.strip()]
+    # CORS Origins (supports FRONTEND_URL or CORS_ORIGINS env variables)
+    @property
+    def CORS_ORIGINS(self) -> List[str]:
+        default_origins = [
+            "http://localhost:3000",
+            "http://localhost:5173",
+            "http://127.0.0.1:3000",
+            "http://127.0.0.1:5173",
+        ]
+        origins_set = set(default_origins)
+
+        # Merge origins from CORS_ORIGINS env
+        raw_cors = os.getenv("CORS_ORIGINS", "")
+        if raw_cors:
+            for item in raw_cors.split(","):
+                cleaned = item.strip().rstrip("/")
+                if cleaned:
+                    origins_set.add(cleaned)
+
+        # Merge origins from FRONTEND_URL env (common for Render -> Vercel setups)
+        frontend_url = os.getenv("FRONTEND_URL", "").strip()
+        if frontend_url:
+            for item in frontend_url.split(","):
+                cleaned = item.strip().rstrip("/")
+                if cleaned:
+                    origins_set.add(cleaned)
+
+        return sorted(list(origins_set))
 
     # ML Model Path Resolution
     @property
@@ -46,8 +68,10 @@ class Settings:
         candidates = [
             os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'model', 'models')),
             os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'models')),
+            os.path.abspath(os.path.join(os.path.dirname(__file__), 'models')),
             os.path.abspath('model/models'),
-            os.path.abspath('../model/models')
+            os.path.abspath('../model/models'),
+            os.path.abspath('models')
         ]
         for c in candidates:
             if os.path.exists(c) and os.path.exists(os.path.join(c, 'books.pkl')):

@@ -3,7 +3,8 @@
  * Communicates exclusively with the FastAPI Backend (Phase 3).
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const rawApiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const API_BASE = rawApiUrl.replace(/\/+$/, '');
 
 class ApiError extends Error {
   constructor(message, status = 500, details = null) {

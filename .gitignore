@@ -72,3 +72,10 @@ venv.bak/
 *.sw?
 .DS_Store
 Thumbs.db
+
+# ==========================================
+# Deployment Reports & Temporary Artifacts
+# ==========================================
+PRE_DEPLOYMENT_REPORT.md
+predeployment.md
+PRE_DEPLOYMENT*.md
