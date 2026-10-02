@@ -15,7 +15,7 @@ from fastapi.responses import JSONResponse
 from app.config import settings
 from app.supabase_client import get_supabase
 from app.ml_service import ml_service
-from app.schemas import HealthResponse, ErrorResponse
+from app.schemas import HealthResponse, KeepAliveResponse, ErrorResponse
 from app.routes.books import router as books_router
 from app.routes.recommendations import router as recommendations_router
 
@@ -103,6 +103,37 @@ async def health_check():
         database=db_status,
         ml_model=ml_status
     )
+
+
+@app.get(
+    "/api/keep-alive",
+    response_model=KeepAliveResponse,
+    tags=["System"],
+    summary="Supabase Keep-Alive",
+    description="Lightweight endpoint to ping Supabase books table and prevent inactivity pausing."
+)
+async def keep_alive():
+    try:
+        supabase = get_supabase()
+        # Minimal, read-only query fetching only one ID column
+        res = supabase.table("books").select("id").limit(1).execute()
+        if res.data is None:
+            raise RuntimeError("Database query returned empty response.")
+        return KeepAliveResponse(
+            status="ok",
+            service="keep-alive",
+            database="connected"
+        )
+    except Exception as e:
+        logger.error(f"Keep-alive database query failed: {e}")
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={
+                "status": "error",
+                "service": "keep-alive",
+                "database": "disconnected"
+            }
+        )
 
 
 @app.get(

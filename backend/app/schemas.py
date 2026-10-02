@@ -54,5 +54,11 @@ class HealthResponse(BaseModel):
     ml_model: str = Field("loaded", description="ML model status")
 
 
+class KeepAliveResponse(BaseModel):
+    status: str = Field("ok", description="Service status")
+    service: str = Field("keep-alive", description="Service name")
+    database: str = Field("connected", description="Database connection status")
+
+
 class ErrorResponse(BaseModel):
     detail: str = Field(..., description="Error message description")
