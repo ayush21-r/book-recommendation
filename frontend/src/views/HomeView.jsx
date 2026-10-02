@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, ArrowRight, Layers, Award, Terminal, ChevronDown, ChevronUp } from 'lucide-react';
+import { Sparkles, ArrowRight, Layers, Award, Terminal, ChevronDown, ChevronUp, Cpu } from 'lucide-react';
 import SearchBar from '../components/SearchBar';
 import BookCard from '../components/BookCard';
 import { BookGridSkeleton } from '../components/LoadingSkeleton';
 import ErrorMessage from '../components/ErrorMessage';
+import RecommendationMethodology from '../components/RecommendationMethodology';
 import { api } from '../services/api';
 import { CLUSTERS } from '../constants/clusters';
 
-export default function HomeView({ onSelectBook, onSearch, onSelectCluster }) {
+export default function HomeView({ onSelectBook, onSearch, onSelectCluster, onNavigate }) {
   const [featuredBooks, setFeaturedBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -152,43 +153,34 @@ export default function HomeView({ onSelectBook, onSearch, onSelectCluster }) {
         </div>
       </section>
 
-      {/* How It Works: Machine Learning Architecture */}
-      <section className="bg-manilla/40 border-folio rounded-lg p-6 sm:p-8 space-y-5">
-        <div className="flex items-center gap-2">
-          <Terminal className="w-5 h-5 text-terracotta" />
-          <h2 className="font-serif text-2xl font-bold text-carbon">
-            The Recommendation Engine Architecture
-          </h2>
+      {/* How Folio & Ink Recommends: Architecture Overview */}
+      <section className="bg-manilla/40 border-folio rounded-lg p-6 sm:p-8 space-y-6 shadow-folio">
+        <div className="flex items-center justify-between flex-wrap gap-4 border-b border-carbon/15 pb-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <Cpu className="w-5 h-5 text-terracotta" />
+              <h2 className="font-serif text-2xl font-bold text-carbon">
+                How Folio & Ink Recommends
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm text-carbon/75 font-sans">
+              A privacy-first, content-based recommendation workflow powered by unsupervised ML and textual similarity.
+            </p>
+          </div>
+
+          {onNavigate && (
+            <button
+              onClick={() => onNavigate('about')}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-vellum hover:bg-parchment rounded border border-carbon/25 text-xs font-semibold text-carbon transition-colors tactile-btn"
+            >
+              <span>Explore Full Methodology</span>
+              <ArrowRight className="w-3.5 h-3.5 text-terracotta" />
+            </button>
+          )}
         </div>
-        <p className="text-sm text-carbon/75 font-sans leading-relaxed">
-          Unlike collaborative filtering systems that require extensive user tracking and personal browsing history, <strong>Folio & Ink</strong> uses a privacy-first, content-based recommendation approach:
-        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-          <div className="p-4 bg-vellum rounded-md border-folio-subtle space-y-2">
-            <span className="text-xs font-mono font-bold text-terracotta">01. Feature Fusion</span>
-            <h4 className="font-serif font-bold text-sm text-carbon">TF-IDF Vectorization</h4>
-            <p className="text-xs text-carbon/70">
-              Combines book title, author pedigree, and synopsis into 10,000 unigram and bigram numerical vectors.
-            </p>
-          </div>
-
-          <div className="p-4 bg-vellum rounded-md border-folio-subtle space-y-2">
-            <span className="text-xs font-mono font-bold text-emerald">02. Semantic Partitioning</span>
-            <h4 className="font-serif font-bold text-sm text-carbon">K-Means Clustering</h4>
-            <p className="text-xs text-carbon/70">
-              Groups 4,763 titles into 15 thematic clusters, pruning search space by 93% for real-time sub-millisecond querying.
-            </p>
-          </div>
-
-          <div className="p-4 bg-vellum rounded-md border-folio-subtle space-y-2">
-            <span className="text-xs font-mono font-bold text-saffron">03. High-Precision Matching</span>
-            <h4 className="font-serif font-bold text-sm text-carbon">Cosine Similarity</h4>
-            <p className="text-xs text-carbon/70">
-              Computes geometric cosine similarity angles within the cluster to isolate the truest stylistic companion volumes.
-            </p>
-          </div>
-        </div>
+        {/* Five-Stage Compact Flow */}
+        <RecommendationMethodology isCompact={true} />
       </section>
     </div>
   );

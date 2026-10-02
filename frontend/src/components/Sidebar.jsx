@@ -16,7 +16,7 @@ export default function Sidebar({
   const navItems = [
     { id: 'home', label: 'Discover & Featured', icon: Compass },
     { id: 'search', label: 'Search Books', icon: Search },
-    { id: 'about', label: 'How the ML Engine Works', icon: Sparkles },
+    { id: 'about', label: 'How Folio & Ink Recommends', icon: Sparkles },
   ];
 
   // Display top 5 default or all 15 when expanded
