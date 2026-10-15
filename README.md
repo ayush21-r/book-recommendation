@@ -13,6 +13,12 @@
 
 <br />
 
+[![Live Demo](https://img.shields.io/badge/Live_App-folio--and--ink.vercel.app-C85A32?style=for-the-badge&logo=vercel&logoColor=white)](https://folio-and-ink.vercel.app/)
+[![Backend API](https://img.shields.io/badge/Backend_API-onrender.com-1B4332?style=for-the-badge&logo=render&logoColor=white)](https://book-recommendation-vajb.onrender.com/)
+[![Health Check](https://img.shields.io/badge/Keep--Alive-Active-2ea44f?style=for-the-badge&logo=statuspage&logoColor=white)](https://book-recommendation-vajb.onrender.com/health)
+
+<br />
+
 > *"Find your next chapter. Discover books that belong on the same shelf."*
 <br />
 A complete, production-ready machine learning web application that combines **unsupervised text clustering**, **high-dimensional vector similarity**, a **scalable PostgreSQL database**, and an **editorial, tactile user interface** crafted under the **"Folio & Ink"** aesthetic.
@@ -21,8 +27,22 @@ A complete, production-ready machine learning web application that combines **un
 
 ---
 
+## 🌐 Live Deployment & Service Links
+
+| Resource | Platform | URL | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Web Application (Frontend)** | Vercel | [https://folio-and-ink.vercel.app/](https://folio-and-ink.vercel.app/) | Production literary recommendation web app |
+| **Backend API Service** | Render | [https://book-recommendation-vajb.onrender.com/](https://book-recommendation-vajb.onrender.com/) | FastAPI & ML recommendation engine |
+| **Database Keep-Alive** | Render | [https://book-recommendation-vajb.onrender.com/health](https://book-recommendation-vajb.onrender.com/health) | Lightweight Supabase keep-alive route (Cron monitor) |
+| **System Diagnostics** | Render | [https://book-recommendation-vajb.onrender.com/api/health](https://book-recommendation-vajb.onrender.com/api/health) | Detailed multi-system status (DB, ML, version) |
+| **Interactive API Docs (Swagger)** | Render | [https://book-recommendation-vajb.onrender.com/docs](https://book-recommendation-vajb.onrender.com/docs) | Interactive Swagger UI API explorer |
+| **Alternative API Docs (ReDoc)** | Render | [https://book-recommendation-vajb.onrender.com/redoc](https://book-recommendation-vajb.onrender.com/redoc) | Clean OpenAPI reference documentation |
+
+---
+
 ## 📑 Table of Contents
 
+- [🌐 Live Deployment & Service Links](#-live-deployment--service-links)
 - [🌟 Architectural Highlights](#-architectural-highlights)
 - [🏛️ Full-Stack System Architecture](#️-full-stack-system-architecture)
 - [🧠 Phase 1 — Machine Learning Engine](#-phase-1--machine-learning-engine)
@@ -204,13 +224,18 @@ During application startup (via `@asynccontextmanager` lifespan), the backend pr
 
 ### REST API Reference
 
-| Method | Endpoint | Query Parameters | Description |
-| :---: | :--- | :--- | :--- |
-| `GET` | `/api/health` | — | Diagnostic check (DB, ML status, version) |
-| `GET` | `/api/books` | `page=1`, `limit=20`, `cluster=14` | Paginated catalog retrieval with optional cluster filter |
-| `GET` | `/api/books/search` | `q=Hobbit`, `page=1`, `limit=20` | Case-insensitive title/author search |
-| `GET` | `/api/books/{book_id}` | — | Single book metadata retrieval |
-| `GET` | `/api/recommend/{book_id}` | `limit=10` | Top-N ML content-based recommendations |
+**Production Base URL:** [`https://book-recommendation-vajb.onrender.com`](https://book-recommendation-vajb.onrender.com)  
+**Interactive API Docs:** [`https://book-recommendation-vajb.onrender.com/docs`](https://book-recommendation-vajb.onrender.com/docs)  
+**ReDoc Specification:** [`https://book-recommendation-vajb.onrender.com/redoc`](https://book-recommendation-vajb.onrender.com/redoc)
+
+| Method | Endpoint | Query Parameters | Live Production Link | Description |
+| :---: | :--- | :--- | :--- | :--- |
+| `GET` | `/health` | — | [`/health`](https://book-recommendation-vajb.onrender.com/health) | Lightweight Supabase keep-alive ping for cron monitors |
+| `GET` | `/api/health` | — | [`/api/health`](https://book-recommendation-vajb.onrender.com/api/health) | Full diagnostic check (DB, ML status, version) |
+| `GET` | `/api/books` | `page=1`, `limit=20`, `cluster=14` | [`/api/books`](https://book-recommendation-vajb.onrender.com/api/books?limit=5) | Paginated catalog retrieval with optional cluster filter |
+| `GET` | `/api/books/search` | `q=Hobbit`, `page=1`, `limit=20` | [`/api/books/search?q=Hobbit`](https://book-recommendation-vajb.onrender.com/api/books/search?q=Hobbit) | Case-insensitive title/author search |
+| `GET` | `/api/books/{book_id}` | — | [`/api/books/1`](https://book-recommendation-vajb.onrender.com/api/books/1) | Single book metadata retrieval |
+| `GET` | `/api/recommend/{book_id}` | `limit=10` | [`/api/recommend/1`](https://book-recommendation-vajb.onrender.com/api/recommend/1) | Top-N ML content-based recommendations |
 
 #### Sample Recommendation Response (`GET /api/recommend/5907` — *The Hobbit*):
 ```json

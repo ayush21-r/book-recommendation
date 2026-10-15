@@ -3,6 +3,7 @@
 **Brand:** Folio & Ink  
 **Design Philosophy:** Warm Editorial, Tactile, Archival, Literary & Minimal  
 **Technology Stack:** React 18, Vite, Tailwind CSS, Lucide Icons  
+**Live Application URL:** [https://folio-and-ink.vercel.app/](https://folio-and-ink.vercel.app/)
 
 ---
 

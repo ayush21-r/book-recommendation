@@ -2,6 +2,13 @@
 
 This directory contains the production-ready REST API backend for the Book Recommendation System, built with **FastAPI**, **Uvicorn**, **Supabase**, and **Scikit-Learn**.
 
+### 🌐 Live Production Links
+* **Live Backend Service**: [https://book-recommendation-vajb.onrender.com/](https://book-recommendation-vajb.onrender.com/)
+* **Database Keep-Alive Route**: [https://book-recommendation-vajb.onrender.com/health](https://book-recommendation-vajb.onrender.com/health)
+* **System Diagnostics**: [https://book-recommendation-vajb.onrender.com/api/health](https://book-recommendation-vajb.onrender.com/api/health)
+* **Interactive Swagger UI**: [https://book-recommendation-vajb.onrender.com/docs](https://book-recommendation-vajb.onrender.com/docs)
+* **ReDoc OpenAPI Documentation**: [https://book-recommendation-vajb.onrender.com/redoc](https://book-recommendation-vajb.onrender.com/redoc)
+
 ---
 
 ## 🏛️ Architecture Overview
