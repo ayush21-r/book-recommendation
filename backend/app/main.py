@@ -81,6 +81,25 @@ app.include_router(recommendations_router, prefix=settings.API_PREFIX)
 
 
 @app.get(
+    "/health",
+    tags=["System"],
+    summary="Database Health & Keep-Alive",
+    description="Lightweight health check that queries Supabase to prevent free-tier project pausing."
+)
+async def health():
+    try:
+        supabase = get_supabase()
+        supabase.table("books").select("id").limit(1).execute()
+        return {"status": "ok", "db": "connected"}
+    except Exception as e:
+        logger.error(f"Health check database query failed: {e}")
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"status": "error", "detail": str(e)}
+        )
+
+
+@app.get(
     "/api/health",
     response_model=HealthResponse,
     tags=["System"],
