@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, Search, Activity } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Sidebar from './components/Sidebar';
 import SystemStatusModal from './components/SystemStatusModal';
 import HomeView from './views/HomeView';
@@ -7,13 +9,59 @@ import SearchResultsView from './views/SearchResultsView';
 import BookDetailsView from './views/BookDetailsView';
 import AboutView from './views/AboutView';
 
+/**
+ * Resolves initial view and book state from current URL pathname
+ */
+function parsePathState(pathname) {
+  if (pathname === '/about') {
+    return { view: 'about', bookId: null };
+  }
+  if (pathname === '/search') {
+    return { view: 'search', bookId: null };
+  }
+  const bookMatch = pathname.match(/^\/book\/(\d+)$/);
+  if (bookMatch) {
+    return { view: 'details', bookId: parseInt(bookMatch[1], 10) };
+  }
+  return { view: 'home', bookId: null };
+}
+
 export default function App() {
-  const [currentView, setCurrentView] = useState('home'); // 'home' | 'search' | 'details' | 'about'
-  const [selectedBookId, setSelectedBookId] = useState(null);
+  const initialNav = parsePathState(window.location.pathname);
+  const [currentView, setCurrentView] = useState(initialNav.view); // 'home' | 'search' | 'details' | 'about'
+  const [selectedBookId, setSelectedBookId] = useState(initialNav.bookId);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCluster, setSelectedCluster] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
+
+  // Sync route navigation with browser history so Vercel Analytics and browser Back/Forward work smoothly
+  useEffect(() => {
+    let targetPath = '/';
+    if (currentView === 'about') {
+      targetPath = '/about';
+    } else if (currentView === 'search') {
+      targetPath = '/search';
+    } else if (currentView === 'details' && selectedBookId) {
+      targetPath = `/book/${selectedBookId}`;
+    }
+
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState({ currentView, selectedBookId }, '', targetPath);
+    }
+  }, [currentView, selectedBookId]);
+
+  // Handle browser back / forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const { view, bookId } = parsePathState(window.location.pathname);
+      setCurrentView(view);
+      setSelectedBookId(bookId);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Scroll to top on view changes
   useEffect(() => {
@@ -48,7 +96,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-parchment text-carbon flex flex-col antialiased selection:bg-terracotta-light selection:text-terracotta-dark">
+    <>
+      <div className="min-h-screen bg-parchment text-carbon flex flex-col antialiased selection:bg-terracotta-light selection:text-terracotta-dark">
       {/* Persistent Desktop Sidebar & Mobile Drawer */}
       <Sidebar
         currentView={currentView}
@@ -144,5 +193,10 @@ export default function App() {
         </main>
       </div>
     </div>
+
+    {/* Vercel Web Analytics & Real-User Speed Insights */}
+    <Analytics />
+    <SpeedInsights />
+  </>
   );
 }
